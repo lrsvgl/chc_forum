@@ -1,0 +1,35 @@
+Bugs fixed:
+5580	Little mistake in german translation
+5581	xhtml strict: tfoot
+5579	xhtml strict: javascript tag
+5447	Patchset to make sure chc_forum plays nice with the dbal [most part of the supplied patch is used, some things were unneccessary]
+0965 dbal problems [Fixed by 5447]
+5015	mailer.php : php5 compatibility, warning & notification errors
+5015	Duplicate of above
+4349	mailer.php with php5 return errror: Fatal error: Cannot redeclare htmlspecialchars_decode() [Fixed by 5015]
+2520	User List shows Hidden FE Users
+2494	Wrong translation of form label at answering form
+4704	German translation of form_label_where_thread should read "Antwort zum Thema"
+4051	tx_chcforum_post.post_sent_flag not preserved on copy
+4050	Mailer sends deleted posts
+3422	Image size for userpic/avatar hardcoded
+2386	Missing german translation for rating
+2212	wrong german translation
+2073 [code] instead of [color] [There are still some translations missing for 'form_c_help' in pi1/locallang.php]
+
+Features added:
+4416 Display Profile->Mailersettings with Category->Conference Tree [In user profile: Show categories in conference listing]
+0000 cwt_communiy: Buddylist and send PM only available if user is logged in
+0000 Mailer: Author of a post does not receive notification about his own new message any more
+0000 Mailer: Use author username instead of real name in post notification mail
+
+
+Already fidex by...(Bugs should be closed):
+4277	fcode_array_pop [chc_forum]
+3695	chc_new_con ph5 error [php5 compatibility issue, fixed by current TYPO3 version]
+2121	Mailer: Some characters still HTML encoded [htmlspecialchars_decode is now part of PHP 5, updated function to maintain php 4 compatible]
+
+
+- Added alt attribute for watch thread / conference icon (locallang: alt_watch_conference, alt_watch_thread)
+- Added german traslation for cwt_community labels
+- Added more options to allow / deny rating: no, yes, only logged in users may rate (changed single_post.tpl, tx_chc_forum_post.php)
