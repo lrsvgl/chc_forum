@@ -39,7 +39,7 @@
 		*/ 
 		function tx_chcforum_fconf ($cObj) {
 
-			#t3lib_div::debug(debug_backtrace());
+			#t3lib_utility_Debug::debug(debug_backtrace());
 			// unset this object -- we want it lean and mean.
 			foreach ($this as $k => $v) {
 				unset($this->$k);

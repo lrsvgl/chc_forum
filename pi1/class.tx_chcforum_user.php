@@ -109,10 +109,10 @@
 				$this->chcForumUsrConf = $GLOBALS["TSFE"]->fe_user->getKey("user","chcForumUsrConf");
 /*
 print 'session conf<br/>';
-t3lib_div::debug($this->chcForumSesConf);
+t3lib_utility_Debug::debug($this->chcForumSesConf);
 print '<br/>';
 print 'user conf<br/>';
-t3lib_div::debug($this->chcForumUsrConf);
+t3lib_utility_Debug::debug($this->chcForumUsrConf);
 print '<br/>';
 print '<br/>';
 print '<br/>';
@@ -677,7 +677,7 @@ print '<br/>';
 			if (!is_array($this->posts_read)) $this->posts_read = array();
 			if (is_array($posts_since_last_visit)) {
 				$total = count(array_diff($posts_since_last_visit,$this->posts_read));
-				#t3lib_div::debug(array_diff($posts_since_last_visit,$this->posts_read));
+				#t3lib_utility_Debug::debug(array_diff($posts_since_last_visit,$this->posts_read));
 			}
 			return $total;
 		}

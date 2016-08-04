@@ -33,10 +33,10 @@ plugin.tx_chcforum_pi1 {
 	fcode_tpl.quote_close = </div></div>
 
 	// template string for last post info as displayed in all categories view
-	posts.post_info_string.all_cats = {DATE}, {TIME}<br />{IN} {THREAD_LINK}<br />{BY} {AUTHOR_LINK}<br />
+	posts.post_info_string.all_cats = ###DATE###, ###TIME###<br />###IN### ###THREAD_LINK###<br />###BY### ###AUTHOR_LINK###<br />
 
 	// template string for last post info as displayed in single conference view
-	posts.post_info_string.single_conf = {DATE}, {TIME}<br />{POSTED} {AGE} {AGO}<br />{BY} {AUTHOR_LINK}<br />
+	posts.post_info_string.single_conf = ###DATE###, ###TIME###<br />###POSTED### ###AGE### ###AGO###<br />###BY### ###AUTHOR_LINK###<br />
 
 	// wrap for form in single conference preview view
 	single_conf.preview.form.wrap = |<br />

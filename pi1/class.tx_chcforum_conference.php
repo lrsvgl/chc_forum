@@ -157,9 +157,13 @@
 		function return_last_post_data () {
 			$uid = $this->return_most_recent_thread_id();
 			if ($uid) {
+
 				$thread = t3lib_div::makeInstance("tx_chcforum_thread",$uid, $this->cObj);
 				$recent_post_id = $thread->return_most_recent_post();
 				$post = t3lib_div::makeInstance("tx_chcforum_post",$recent_post_id, $this->cObj);
+
+				debug($post->return_post_info(),'return_post_info');
+
 				return $post->return_post_info();
 			} else {
 				return '<div style="text-align: center;">'.tx_chcforum_shared::lang('return_last_post_data_none').'</div>';

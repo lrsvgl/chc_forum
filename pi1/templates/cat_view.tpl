@@ -39,7 +39,7 @@
 		</td>
 		<td class="tx-chcforum-pi1-catThreadCell">{conf_thread_count}</td>
 		<td class="tx-chcforum-pi1-catPostCell">{conf_post_count}</td>
-		<td class="tx-chcforum-pi1-catLastCell">{conf_last_post_data}</td>
+		<td class="tx-chcforum-pi1-catLastCell xx">{conf_last_post_data}</td>
 	</tr>
 	<!-- END BLOCK : conf_row -->
 </tbody>

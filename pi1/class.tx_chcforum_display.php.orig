@@ -64,7 +64,7 @@
 
 					// extract values of $gpvars and assign to variables with same name as
 					// key name -- setting up the display object.
-					#t3lib_div::debug ($gpvars);
+					#t3lib_utility_Debug::debug ($gpvars);
 					foreach ($gpvars as $attr => $value) {
 						$this->$attr = $value;
 					}
@@ -696,7 +696,7 @@
 								function new_posts_view() {
 									// we're going to piggy back on the search results function here...
 									$threads = $this->user->get_threads_with_new();
-#t3lib_div::debug($threads);
+#t3lib_utility_Debug::debug($threads);
 									$this->thread_cnt = count($threads);
 									$this->list_threads($threads);
 								}

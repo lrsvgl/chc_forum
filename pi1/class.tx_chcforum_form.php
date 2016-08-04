@@ -927,7 +927,7 @@
 				$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataArr);
 
 
-				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_div::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
+				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 					if ($GLOBALS['TYPO3_DB']->sql_affected_rows() > 0) $threadid = $GLOBALS['TYPO3_DB']->sql_insert_id();
 				// Update the post with the thread_id number
 				$table = 'tx_chcforum_post';
@@ -936,7 +936,7 @@
 				$dataArr['thread_id'] = $threadid;
 				$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
 				$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
-				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_div::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
+				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 				
 				// consider the new post read by the current user.
 				if ($this->user->uid && $postid) {
@@ -1003,7 +1003,7 @@
 				$dataArr['crdate'] = time();
 				$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataArr);
 				
-				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_div::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
+				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 				if ($GLOBALS['TYPO3_DB']->sql_affected_rows() > 0) $postid = $GLOBALS['TYPO3_DB']->sql_insert_id();
 					 
 				// Update the thread with the post id number and a tstamp
@@ -1013,7 +1013,7 @@
 				$dataArr['thread_lastpostid'] = $postid;
 				$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
 				$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
-				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_div::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
+				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 					break;
 				 
 				// Used to update an edited post in the DB.
@@ -1094,6 +1094,7 @@
 				 
 				// After deleting the message, check to see if there are any messages left in the
 				// thread. If there aren't any remaining messages, you need to delete the thread, too.
+				$tx_chcforum_thread= t3lib_div::makeInstanceClassName("tx_chcforum_thread");
 				$thread = t3lib_div::makeInstance("tx_chcforum_thread",$this->thread_uid, $this->cObj);
 				$table = 'tx_chcforum_thread';
 				$uid = $thread->uid;
@@ -1104,7 +1105,7 @@
 					$field_list = 'thread_lastpostid';
 					$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
 					$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
-					if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_div::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
+					if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 					}
 				 
 				if ($thread->return_post_count() <= 0) {
@@ -1119,7 +1120,7 @@
 					unset($this->thread_uid);
 					$this->view = 'single_conf';
 					
-					if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_div::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
+					if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 						$this->reset_form();
 				}
 			}

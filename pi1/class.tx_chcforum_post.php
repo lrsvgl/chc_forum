@@ -150,23 +150,30 @@
 				break;
 			}
 
-			$markers['{DATE}'] = $this->return_post_date();
-			$markers['{TIME}'] = $this->return_post_time();
-			$markers['{IN}'] = tx_chcforum_shared::lang('return_post_info_in');
-			$markers['{THREAD_LINK}'] = $thread->thread_link(true); 
-			$markers['{BY}'] = tx_chcforum_shared::lang('return_post_info_by');
-			$markers['{POSTED}'] = $values[] = tx_chcforum_shared::lang('return_post_info_posted');
-			$markers['{AGE}'] = $values[] = $this->return_post_age();			
-			$markers['{AGO}'] = tx_chcforum_shared::lang('return_post_info_ago');
+			debug($this->return_post_date(),'post');
+
+			$markers['###DATE###'] = $this->return_post_date();
+			$markers['###TIME###'] = $this->return_post_time();
+			$markers['###IN###'] = tx_chcforum_shared::lang('return_post_info_in');
+			$markers['###THREAD_LINK###'] = $thread->thread_link(true);
+			$markers['###BY###'] = tx_chcforum_shared::lang('return_post_info_by');
+			$markers['###POSTED###'] = $values[] = tx_chcforum_shared::lang('return_post_info_posted');
+			$markers['###AGE###'] = $values[] = $this->return_post_age();
+			$markers['###AGO###'] = tx_chcforum_shared::lang('return_post_info_ago');
 
 			if ($this->post_author) {
 				$author = t3lib_div::makeInstance("tx_chcforum_author",$this->post_author, $this->cObj);
-				$markers['{AUTHOR_LINK}'] = $author->return_name_link();
+				$markers['###AUTHOR_LINK###'] = $author->return_name_link();
 			} else {
-				$markers['{AUTHOR_LINK}'] = $this->post_author_name;
+				$markers['###AUTHOR_LINK###'] = $this->post_author_name;
 			}
 
+			debug($markers,'markers');
+
 			$out = $this->cObj->substituteMarkerArrayCached($out,$markers);
+
+			debug($out,'out');
+
 			return $out;
 		}
 	
