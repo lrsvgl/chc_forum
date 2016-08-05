@@ -150,7 +150,6 @@
 				break;
 			}
 
-			debug($this->return_post_date(),'post');
 
 			$markers['###DATE###'] = $this->return_post_date();
 			$markers['###TIME###'] = $this->return_post_time();
@@ -168,11 +167,7 @@
 				$markers['###AUTHOR_LINK###'] = $this->post_author_name;
 			}
 
-			debug($markers,'markers');
-
 			$out = $this->cObj->substituteMarkerArrayCached($out,$markers);
-
-			debug($out,'out');
 
 			return $out;
 		}

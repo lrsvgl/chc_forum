@@ -162,7 +162,6 @@
 				$recent_post_id = $thread->return_most_recent_post();
 				$post = t3lib_div::makeInstance("tx_chcforum_post",$recent_post_id, $this->cObj);
 
-				debug($post->return_post_info(),'return_post_info');
 
 				return $post->return_post_info();
 			} else {

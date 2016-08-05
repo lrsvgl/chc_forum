@@ -1094,7 +1094,6 @@
 				 
 				// After deleting the message, check to see if there are any messages left in the
 				// thread. If there aren't any remaining messages, you need to delete the thread, too.
-				$tx_chcforum_thread= t3lib_div::makeInstanceClassName("tx_chcforum_thread");
 				$thread = t3lib_div::makeInstance("tx_chcforum_thread",$this->thread_uid, $this->cObj);
 				$table = 'tx_chcforum_thread';
 				$uid = $thread->uid;
