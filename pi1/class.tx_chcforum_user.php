@@ -510,7 +510,7 @@ print '<br/>';
             // the following 6 lines haven't changed since the old version -- I've
             // just added new code begining with the $count variable.
             $query = "SELECT post_uid FROM tx_chcforum_posts_read WHERE feuser_uid=".$this->uid;
-            $results = $GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+            $results = $GLOBALS['TYPO3_DB']->sql_query($query);
             
             while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($results)) {
                 $posts_read_rows[] = $row['post_uid'];

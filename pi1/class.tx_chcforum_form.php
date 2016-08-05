@@ -935,7 +935,7 @@
 				$field_list = 'thread_id';
 				$dataArr['thread_id'] = $threadid;
 				$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
-				$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+				$GLOBALS['TYPO3_DB']->sql_query($query);
 				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 				
 				// consider the new post read by the current user.
@@ -998,7 +998,7 @@
 				}
 
 				$query = $this->cObj->DBgetInsert($table, $pid, $dataArr, $field_list);
-				//$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+				//$GLOBALS['TYPO3_DB']->sql_query($query);
 				$dataArr['pid'] = $pid;
 				$dataArr['crdate'] = time();
 				$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataArr);
@@ -1012,7 +1012,7 @@
 				$field_list = 'thread_lastpostid';
 				$dataArr['thread_lastpostid'] = $postid;
 				$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
-				$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+				$GLOBALS['TYPO3_DB']->sql_query($query);
 				if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 					break;
 				 
@@ -1028,7 +1028,7 @@
 				$dataArr['post_text'] = $this->text;
 				$dataArr['post_edit_count'] = 1; // fix this!
 				$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
-				$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+				$GLOBALS['TYPO3_DB']->sql_query($query);
 								
 				if ($GLOBALS['TYPO3_DB']->sql_error()) debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 					break;
@@ -1088,7 +1088,7 @@
 				$field_list = 'deleted';
 				$dataArr['deleted'] = 1;
 				$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
-				$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+				$GLOBALS['TYPO3_DB']->sql_query($query);
 				if ($GLOBALS['TYPO3_DB']->sql_error()) debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 					unset($field_list);
 				 
@@ -1103,7 +1103,7 @@
 					$dataArr['thread_lastpostid'] = $lastpostid;
 					$field_list = 'thread_lastpostid';
 					$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
-					$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+					$GLOBALS['TYPO3_DB']->sql_query($query);
 					if ($GLOBALS['TYPO3_DB']->sql_error()) t3lib_utility_Debug::debug(array($GLOBALS['TYPO3_DB']->sql_error(), $query));
 					}
 				 
@@ -1111,7 +1111,7 @@
 					$field_list = 'deleted';
 					$dataArr['deleted'] = 1;
 					$query = $this->cObj->DBgetUpdate($table, $uid, $dataArr, $field_list);
-					$GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+					$GLOBALS['TYPO3_DB']->sql_query($query);
 					
 					// we just deleted a thread, and we want to make sure
 					// we don't return to it.

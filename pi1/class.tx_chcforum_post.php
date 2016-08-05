@@ -228,6 +228,7 @@
 					$tmpl->assign('admin_unhide_link', $this->admin_unhide_link());
 				}
 			}
+			#debug($this->return_parsed_text(),'parsed_text');
 			$tmpl->assign('parsed_post_body', $this->return_parsed_text());
 			
 			// if a file is attached and the file exists, display it.			
@@ -901,6 +902,8 @@
 #			}
 
 			if ($this->post_text) {
+
+
 				// strip slashes, get raw text
 				$raw_text = stripslashes($this->post_text);
      	
@@ -1089,10 +1092,12 @@
 				$theText = nl2br($theText);
 
 				// we've parsed the text, now store it in the cache.
-				if ($this->uid) $this->update_post_cache($theText);	
-
+				if ($this->uid) $this->update_post_cache($theText);
+				#debug($theText,'the_text');
 				// return the text.
 				$theText = kses($theText, $this->fconf['allowed'], array('http', 'https'));
+
+
 
 				return $theText;
 				} else {

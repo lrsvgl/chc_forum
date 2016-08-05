@@ -1509,7 +1509,7 @@ class tx_chcforum_display extends tx_chcforum_pi1
 			if (t3lib_extMgm::isLoaded('kh_usersonline')) {
 				// Delete all users which are timed out
 				$query = 'DELETE FROM tx_khusersonline_users WHERE time < \'' . $clear_time . '\'';
-				$res = $GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+				$res = $GLOBALS['TYPO3_DB']->sql_query($query);
 
 				// Count logged in users
 				$query = "SELECT fe_users.username, fe_users.name, tx_khusersonline_users.user AS uid FROM tx_khusersonline_users LEFT JOIN fe_users ON tx_khusersonline_users.user = fe_users.uid WHERE user != 0";
@@ -1520,7 +1520,7 @@ class tx_chcforum_display extends tx_chcforum_pi1
 			}
 
 			// get results
-			$res = $GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+			$res = $GLOBALS['TYPO3_DB']->sql_query($query);
 			$count = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
 
 			// Get the names of users online
@@ -1565,7 +1565,7 @@ class tx_chcforum_display extends tx_chcforum_pi1
 	{
 		if (is_numeric($this->fconf['feusers_pid'])) $pid = $this->fconf['feusers_pid'];
 		$query = 'SELECT COUNT(*) as user_count FROM fe_users WHERE deleted=0 and pid=\'' . $pid . '\'';
-		$results = $GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+		$results = $GLOBALS['TYPO3_DB']->sql_query($query);
 		$count = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($results);
 
 		$GLOBALS['TYPO3_DB']->sql_free_result($results);
@@ -1583,7 +1583,7 @@ class tx_chcforum_display extends tx_chcforum_pi1
 		if (!$this->cObj->conf['pidList']) return false;
 		$query = 'SELECT COUNT(*) as post_count FROM tx_chcforum_post WHERE deleted=0 AND pid=\'' . $this->cObj->conf['pidList'] . '\'';
 
-		$results = $GLOBALS['TYPO3_DB']->sql_query(TYPO3_db, $query);
+		$results = $GLOBALS['TYPO3_DB']->sql_query($query);
 		$count = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($results);
 
 		$GLOBALS['TYPO3_DB']->sql_free_result($results);
