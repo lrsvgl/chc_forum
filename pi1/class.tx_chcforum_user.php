@@ -218,7 +218,7 @@ print '<br/>';
 			$out .= '<div class="tx-chcforum-pi1-profileBorder">';
 			if ($this->fconf['mailer_disable'] != true) {
 
-				$message = new $tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_form_email'), 'profile_hdr');
+				$message = new tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_form_email'), 'profile_hdr');
 				$out .= $message->display();
 				$out .= tx_chcforum_shared::lang('profile_email_msg').'<br /><br />';
 				
@@ -247,7 +247,7 @@ print '<br/>';
 			}
 			if ($this->fconf['disable_img'] != true and $this->fconf['disable_img_edit'] != true) {
 				if (true ||$cwt_version == false) {
-					$message = new $tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_form_img'), 'profile_hdr');
+					$message = new tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_form_img'), 'profile_hdr');
 					$out .= $message->display();
 					$out .= tx_chcforum_shared::lang('profile_img_msg').'<br /><br />';
 					$out .= '<input name="profile" type="file" /><br />';
@@ -257,7 +257,7 @@ print '<br/>';
 			}
 
 			if ($this->fconf['disable_yahoo'] != true or $this->fconf['disable_aim'] != true or $this->fconf['disable_msn'] != true or $this->fconf['custom_im']) {
-				$message = new $tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_form_im'), 'profile_hdr');
+				$message = new tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_form_im'), 'profile_hdr');
 				$out .= $message->display();
 				$out .= tx_chcforum_shared::lang('profile_im_msg').'<br />';
 				$out .= '<table border="0" cellspacing="0" cellpadding="0">';
@@ -271,7 +271,7 @@ print '<br/>';
 
 			if ($this->fconf['disable_email'] != true) {			 
 				if ($cwt_version == false) {
-					$message = new $tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_emailaddr'), 'profile_hdr');
+					$message = new tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_emailaddr'), 'profile_hdr');
 					$out .= $message->display();
 					$out .= tx_chcforum_shared::lang('profile_emailaddr_msg').'<br /><br />';
 					$out .= tx_chcforum_shared::lang('profile_emailaddr').'<input size="50" type="text" name="profile[email]" value="'.$this->email.'" /><br /><br />';
@@ -281,7 +281,7 @@ print '<br/>';
 
 			if ($this->fconf['disable_website'] != true) {
 				if ($cwt_version == false) {
-					$message = new $tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_website'), 'profile_hdr');
+					$message = new tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_website'), 'profile_hdr');
 					$out .= $message->display();
 					$out .= tx_chcforum_shared::lang('profile_website_msg').'<br /><br />';
 					$out .= tx_chcforum_shared::lang('profile_website_lbl').' <input size="50" type="text" name="profile[www]" value="'.$this->www.'" /><br /><br />';
@@ -293,7 +293,7 @@ print '<br/>';
 			if ($content != true) return;
 
 			if ($cwt_version == false) {
-				$message = new $tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_submit'), 'profile_hdr');
+				$message = new tx_chcforum_message($this->cObj, tx_chcforum_shared::lang('profile_submit'), 'profile_hdr');
 				$out .= $message->display();
 			}
 			$out .= '<input type="hidden" name="view" value="profile" />';
@@ -339,7 +339,7 @@ print '<br/>';
 		* @return void
 		*/
 		function process_profile_form ($pv, $pf, $max_user_img = 102400) {
-			// deprecated: $tx_chcforum_message = t3lib_div::makeInstanceClassName("tx_chcforum_message");
+			// deprecated: tx_chcforum_message = t3lib_div::makeInstanceClassName("tx_chcforum_message");
 			if ($pv['submit'] && $pv['author'] == $this->uid) {
 				// make sure the author we're viewing is this user. Confirm submit.
 				// translate max_user_img from kb to b

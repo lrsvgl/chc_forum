@@ -46,6 +46,9 @@
 		* @return void
 		*/
 		function main($content, $conf) {
+
+			//$this->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
+
 			$this->pi_USER_INT_obj=1;	// Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
 
 			$this->conf = $conf; // Load the typoscript conf for the plugin
@@ -65,7 +68,9 @@
 			$this->cObj->fconf = $this->fconf;
 
 			$this->forum_pid = $this->cObj->data['pid']; // the pid for the page containing this instance of the forum.
-					 
+
+			$this->forum_pid = $this->cObj;
+
 
 			// set up some values for cwtCommunity...
 			// is cwt_community integration on?
@@ -84,13 +89,13 @@
 			} else {
 				$this->conf['cwtCommunityIntegrated'] = false;
 			}
-
+		;
 			// pass conf via cObj
 			$this->cObj->conf = $this->conf;
 			$this->cObj->ux_language = $this->LOCAL_LANG;
 			$this->cObj->ux_llkey = $this->LLkey;
 			$this->cObj->ux_llcharset = $this->LOCAL_LANG_charset;
-			
+
 			// Organize and decrypt information sent via the URL
 
 			$gpvars['recipient_uid'] = intval(t3lib_div::_GP('recipient_uid')); // for cwt_community integration
@@ -184,7 +189,7 @@
 			if ($gpvars['flag'] == 'rate') {
 					if (!$gpvars['rateSelect'] or !$gpvars['ratePostUID']) $gpvars['flag'] = '';
 			}
-			
+
 			// validate preview
 			// if the preview button was pressed, set $gpvars['preview'] to true.
 			// Have to do it this way because preview was originally done through a
@@ -214,10 +219,21 @@
 			if ($gpvars['search']['display_results'] != '1' and $gpvars['search']['display_results'] != '2') $gpvars['search']['display_results'] = '1';
 
 			// Make a new $tx_chcforum_display object using the information in $gpvars array
-			//$tx_chcforum_display = t3lib_div::makeInstanceClassName("tx_chcforum_display");
+			//tx_chcforum_display = t3lib_div::makeInstanceClassName("tx_chcforum_display");
+
+
 			$this->cObj->gpvars = $gpvars;
+
+			#debug($this->cObj,"cObj");
+
+
+			// todo: Profil-Aufruf (1) erzeugt fehler bei Instanzierung von tx_chcforum_display
+			// todo: Profil-Aufruf (6) ruft sich das selbst auf? makeInstance der falsche Aufruf?
 			$display = t3lib_div::makeInstance("tx_chcforum_display",$this->cObj);
+			//$display = new tx_chcforum_display($this->cObj);
+			//debug($display,"display");
 			$out .= '<div id="tx_chcforum-pi1">';
+
 			$out .= $display->html_out;
 			$out .= '</div>';
 

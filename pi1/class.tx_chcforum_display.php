@@ -297,6 +297,7 @@ class tx_chcforum_display extends tx_chcforum_pi1
 				$this->single_post();
 				break;
 			case 'profile':
+				// todo: Profil-Aufruf (2) aufruf erzeugt Fehler
 				$this->profile();
 				break;
 			case 'search':
@@ -312,7 +313,7 @@ class tx_chcforum_display extends tx_chcforum_pi1
 				$this->all_cats();
 				break;
 		}
-
+		//debug($this->header_html, "header_html");
 		$this->toolbar_html = $this->return_tool_bar();
 		$this->html_out = $this->header_html . $this->toolbar_html . $this->html_out;
 	}
@@ -478,15 +479,16 @@ class tx_chcforum_display extends tx_chcforum_pi1
 			}
 
 			// If the profile belongs to the current user, switch to edit profile view.
-			if ($this->user->uid == $this->author or $this->author == 'self') {
-				return $this->editProfile();
-			}
+//			if ($this->user->uid == $this->author or $this->author == 'self') {
+//				#debug($this->author, "author: ");
+//				return $this->editProfile();
+//			}
 
 			// Go ahead and display the author profile...;
 			$this->author_obj = t3lib_div::makeInstance("tx_chcforum_author", $this->author, $this->cObj);
 			if ($this->user->uid == $this->author_obj->uid && $this->submit && $this->profile['submit'] == 'submit') {
 				$this->html_out .= $this->user->process_profile_form($this->profile, $this->files, $this->max_user_img);
-				$this->author_obj = new $tx_chcforum_author($this->author, $this->cObj); // reset the author
+				$this->author_obj = new tx_chcforum_author($this->author, $this->cObj); // reset the author
 			}
 
 			$link_params['view'] = 'all_cats';
@@ -494,8 +496,10 @@ class tx_chcforum_display extends tx_chcforum_pi1
 			$text = tx_chcforum_shared::makeLink($link_params, $link_text);
 			$link_to_cats =  t3lib_div::makeInstance("tx_chcforum_message", $this->cObj, $text, 'link');
 			$this->html_out .= $link_to_cats->display();
-
+			#debug($this->html_out, "profile");
+			// todo: Profil-Aufruf (3) author_obj->display erzeugt Fehler in der Ausgabe
 			$this->html_out .= $this->author_obj->display();
+
 		} else { // no author
 			$link_params['view'] = 'all_cats';
 			$link_text = tx_chcforum_shared::lang('single_conf_all_cats_link');
@@ -1264,7 +1268,7 @@ class tx_chcforum_display extends tx_chcforum_pi1
 		$markers['page_links_bottom'] = $page_links_msg->display();
 
 		while ($this->page_start <= $this->page_end) {
-			$post = t3lib_div::makeInstance("tx_chcforum_post",$this->cObj,$post_ids[$this->page_start], $this->cObj);
+			$post = t3lib_div::makeInstance("tx_chcforum_post",$post_ids[$this->page_start],$this->cObj);
 			$this->user->check_new($post->uid);
 			$markers['the_thread'] .= $post->display_post();
 			$this->page_start++;

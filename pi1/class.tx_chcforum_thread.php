@@ -77,10 +77,12 @@
 			$fields = '*';
 			$limit = '1';
 			$where = tx_chcforum_shared::buildWhere($table,$addWhere,1);
+			$group_by = '';
+			$order_by = '';
 
 			$results = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields,$table,$where,$group_by,$order_by,$limit);
 
-
+			//debug($results);
 
 			if ($results) {
 				$query = $GLOBALS['TYPO3_DB']->SELECTquery($fields,$table,$where,$group_by,$order_by,$limit);
@@ -97,7 +99,7 @@
 					$this->$attr = $value;
 				}
 			}
-			
+
 			// check if user can see hidden
 			if (is_object($this->user) && $this->user->can_mod_conf($this->conference_id)) {
 				$this->user->show_hidden = 1;	
@@ -134,15 +136,19 @@
 		
 		function return_all_post_ids_since ($tstamp, $show_hidden = false) {
 			if (isset($this->cObj) && isset($this->uid)) {
-				switch ($this->fconf['post_sorting']) {
-					case "desc":
-						$order_by = 'crdate DESC';
-					break;
-					case "asc":
-					default:
-						$order_by = 'crdate ASC';
-					break;
-				}			
+//				switch ($this->fconf['post_sorting']) {
+//					case "desc":
+//						$order_by = 'crdate DESC';
+//					break;
+//					case "asc":
+//					default:
+//						$order_by = 'crdate ASC';
+//					break;
+//				}
+				$order_by = 'crdate DESC';
+				$group_by = '';
+				$limit = '';
+
 
 				$table = 'tx_chcforum_post';
 				$addWhere = 'thread_id='.$GLOBALS['TYPO3_DB']->fullQuoteStr($this->uid,$table).' AND crdate > '.$GLOBALS['TYPO3_DB']->fullQuoteStr($tstamp,$table);
@@ -170,15 +176,21 @@
 		*/
 		function return_all_post_ids ($show_hidden = false) {
 			if (isset($this->cObj) && isset($this->uid)) {
-				switch ($this->fconf['post_sorting']) {
-					case "desc":
-						$order_by = 'crdate DESC';
-					break;
-					case "asc":
-					default:
-						$order_by = 'crdate ASC';
-					break;
-				}
+//				switch ($this->fconf['post_sorting']) {
+//					case "desc":
+//						$order_by = 'crdate DESC';
+//					break;
+//					case "asc":
+//					default:
+//						$order_by = 'crdate ASC';
+//					break;
+//				}
+				$order_by = 'crdate DESC';
+				$group_by = '';
+				$limit = '';
+
+				//var_dump("order",$order_by);
+
 				$table = 'tx_chcforum_post';
 				$addWhere = 'thread_id='.$GLOBALS['TYPO3_DB']->fullQuoteStr($this->uid,$table);
 				$fields = 'uid';

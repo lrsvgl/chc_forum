@@ -8,7 +8,8 @@
 {preview_post}
 
 <!-- START BLOCK : thread_table -->
-<table width="100%" border="0" cellspacing="1" cellpadding="0" summary="This table lists threads within this category" class="tx-chcforum-pi1-Table">
+<div class="table-responsive">
+<table class="table" summary="This table lists threads within this category" class="tx-chcforum-pi1-Table">
 <caption>Threads within this category</caption>
 <thead>
 	<tr> 
@@ -37,6 +38,7 @@
 	<!-- END BLOCK : thread -->
 </tbody>
 </table>
+</div>
 <!-- END BLOCK : thread_table -->
 <div class="tx-chcforum-pi1-postTableWrap">
 	{page_links_bottom}

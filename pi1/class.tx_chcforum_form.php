@@ -171,6 +171,8 @@
 			$this->attachment = $display_object->files['attachment'];
 			$this->attach_file_name = $display_object->attach_file_name;
 			$this->thread_endtime = $display_object->thread_endtime;
+
+			//debug($display_object);
 			
 			// Check that the file was in fact uploaded.
 			if ($this->attach_file_name) {
@@ -457,6 +459,7 @@
 					$msg_txt .= $error.'<br />';
 				}
 				$message = t3lib_div::makeInstance("tx_chcforum_message",$this->cObj, $msg_txt, 'message');
+				debug("message",$message->display());
 				$out .= $message->display();
 			}
 			return $out;
@@ -621,6 +624,7 @@
 		function display_form() {
 			
 			// decide what label to put at the top of the form, in the legend
+			#debug ("view",$this->view);
 			switch ($this->view) {
 				case "single_conf":
 					$this->label_array['label_where'] = tx_chcforum_shared::lang('form_label_where_conf');
@@ -636,6 +640,7 @@
 				
 				case "single_thread":
 					$this->label_array['label_where'] = tx_chcforum_shared::lang('form_label_where_thread');
+					#debug ("label_where sahred",tx_chcforum_shared::lang('form_label_where_thread'));
 				break;				
 				
 				case "default":
@@ -643,9 +648,12 @@
 				break;
 			}
 
+
+
 			// We're not doing anything if the user isn't authorized to view the conf in which
 			// The form is being displayed.
 			if ($this->conf_uid && $this->user->can_write_conf($this->conf_uid) == true) {
+
 				// Set up Javascript
 				if (!$this->tmpl_path) $this->tmpl_path = tx_chcforum_shared::setTemplatePath();
 					$tmpl = t3lib_div::makeInstance("tx_chcforum_tpower",$this->tmpl_path.'post_form.js');
@@ -662,7 +670,6 @@
 
 				// Set form action.
 				$tmpl->assign('action', $this->action);
-				 
 				// Decide what to put in the name and author field -- if there's a user logged in,
 				// fill it in automatically. Otherwise render the input fields for username and email.
 				if ($this->user->uid) {
@@ -682,7 +689,7 @@
 					$tmpl->assign('name', '<input type="text" maxlength="50" size="40" name="name" value="'.t3lib_div::htmlspecialchars_decode($name).'" />');
 					$tmpl->assign('email', '<input type="text" maxlength="100" size="40" name="email" value="'.t3lib_div::htmlspecialchars_decode($this->email).'" />');
 				}
-				 
+
 				// Stick all this info in here -- all the ids get validated anyways (and it isn't safe
 				// to trust them anyhow, so they might be approaching unnecessary.
 				$tmpl->assign('hash_fe_user_uid', tx_chcforum_shared::makeHash($this->fe_user_uid));
@@ -700,8 +707,7 @@
 				if ($this->hide_new == true) {
 					$message = t3lib_div::makeInstance("tx_chcforum_message",$this->cObj, tx_chcforum_shared::lang('form_hide_new'), 'error');
 					$tmpl->assign('message',$message->display());
-				}		
-
+				}
  				// Assign emoticon code to template
 				$tmpl->newBlock('emoticons');
  				$tmpl->assign('emoticons', $this->emoticonCode);
@@ -722,10 +728,12 @@
 				
 				// set up paths for buttons
 				$tmpl->assign('img_path', $this->fconf['tmpl_img_path']);
-				
+
 				// Set up the default subject for new posts.
 				if (empty($this->subject) && $this->thread_uid) {
+					// mysql fehler ab hier
 					$thread = t3lib_div::makeInstance("tx_chcforum_thread",$this->thread_uid, $this->cObj);
+					///
 					$this->subject = tx_chcforum_shared::lang('reply_label').' '.$thread->thread_subject;
 				}
 				
@@ -734,7 +742,7 @@
 				// note that we have to decode everything that goes back in a form field (actually,
 				// do we need this for subject field?)
 
-				if ($this->rawText) { 
+				if ($this->rawText) {
 					$text = $this->rawText; 
 				} else {
 					$text = $this->text;
@@ -744,11 +752,11 @@
 				} else {
 					$subject = $this->subject;
 				}
-				
+
 
 				$tmpl->assign('subject', $subject);
 				$tmpl->assign('text', $text);
-				
+
 				// Stage tracking -- set the form stage correctly.
 				if ($this->stage == "new" or $this->stage == 'previewed') {
 					$tmpl_stage = 'posted';
@@ -760,6 +768,7 @@
 
 				// setup post and preview buttons
 				if ($this->view == 'edit_post') {
+					//debug(tx_chcforum_shared::lang('display_form_btn_edit'));
 					$submit_btn_text = tx_chcforum_shared::lang('display_form_btn_edit');
 				} else {
 					$submit_btn_text = tx_chcforum_shared::lang('display_form_btn_post');
@@ -814,6 +823,8 @@
 		* @return void
 		*/
 		function submit($update = false) {
+
+
 			// Is the user allowed to write to this conference?
 			if ($this->user->can_write_conf($this->conf_uid) != true) return false;
 			// Is this thread closed?			
@@ -822,6 +833,9 @@
 			// Constants for all queries
 			// $pid = $GLOBALS['TSFE']->id; OLD METHOD
 			$pid = $this->conf['pidList']; // new method
+
+			debug("where",$this->where);
+
 			switch ($this->where) {
 				// if where equals single_conf, that means were posting a new $tx_chcforum_post while viewing a single conf -- so we need a new $tx_chcforum_post, and a new $tx_chcforum_thread.
 				case 'single_conf':
@@ -877,7 +891,7 @@
 				
 				if ($GLOBALS['TYPO3_DB']->sql_num_rows($res)>0) {
 				  break;
-				} 
+				}
 
 				$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataArr);
 				
@@ -910,12 +924,18 @@
 				//$dataArr['thread_lastposttstamp'] = time();
 				
 				// deal with endtime
+				// todo: pruefen warum endtime hier nicht geladen wird
+				// todo: neues Thema wird nicht erstellt wenn endtime nicht richtig auf "0" gesetzt wird, nur Nachrichten
 				if ($this->thread_endtime) {
 					$now = time();
 					$add = $this->thread_endtime * 24 * 60 * 60; // 24 hours per day, 60 minutes per hour, 60 seconds per minute.
 					$endtime = $now + $add;
 				}
-				$dataArr['endtime'] = $endtime;
+				#$dataArr['endtime'] = $endtime;
+				// Wenn Endtime auf 0 gesetzt wird, gibt es einen neuen Thread
+				$dataArr['endtime'] = 0;
+				//debug('endtime',$this->thread_endtime);
+				#die("check endtime");
 
 				// deal with default endtime
 

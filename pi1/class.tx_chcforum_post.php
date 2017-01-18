@@ -53,6 +53,8 @@
 		 
 		var $conf_auth;
 		var $cObj;
+
+		var $post_id;
 		 
 	 	/** 
 		* Note to self:
@@ -81,14 +83,17 @@
 
 			$this->internal['results_at_a_time'] = 1000;
 			if (!$post_id) {
+				$post_id = "";
 				return;
 			}
+
 
 			$table = 'tx_chcforum_post';
 			$addWhere = 'uid='.$GLOBALS['TYPO3_DB']->fullQuoteStr($post_id,$table);
 			$fields = '*';
 			$limit = '1';
 			$where = tx_chcforum_shared::buildWhere($table,$addWhere,1);
+
 			$results = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields,$table,$where,$group_by,$order_by,$limit);
 			if ($results) {
 				$row_array = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($results);

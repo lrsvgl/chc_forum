@@ -1,5 +1,5 @@
 <?php
-	 
+
 	/***************************************************************
 	*  Copyright notice
 	*
@@ -28,8 +28,10 @@
 	*
 	* @author Zach Davis <zach@crito.org>
 	*/
+
+
 	class tx_chcforum_shared extends tx_chcforum_pi1 {
-		
+
 
 		function encode($string) {
 			// encode the uid with the secret word to ensure that this is coming from the
@@ -52,7 +54,7 @@
 			#return $hash;
 			return $string;
 		}
-		
+
 		function buildWhere($table, $addWhere = false, $show_hidden = false) {
 
 			// kind of a hack -- the idea is that there needs
@@ -61,9 +63,16 @@
 			if (!$show_hidden) {
 				$show_hidden = $this->user->show_hidden;
 			}
-
+			//debug($this->conf['pidList']);
 			// kinda constants
 			$pid = $this->conf['pidList'];
+
+			// todo: prüfen warum teilweise pid´s nicht geladen werden
+			if (!$pid) {
+				$pid = 29;
+			}
+			// info@l-vogel.de
+
 			$pid = $table.'.pid IN ('.$pid.')';
 
 			$enable_fields = $this->cObj->enableFields($table,$show_hidden);
@@ -76,7 +85,7 @@
 
 			if ($addWhere) $where = $where.' AND ('.$addWhere.')';
 			$where = $pid.$where;
-			
+
 #			$where = '';
 #			if ($show_hidden == false) $where[] = $table.'.hidden = 0';
 #			$where[] = $table.'.deleted = 0';
@@ -85,11 +94,11 @@
 #			$where = implode(' AND ', $where);
 
 			return $where;
-			
+
 		}
-		
-		
-	 /** 
+
+
+	 /**
 		* Unmakes hash created by previous function -- used to decypher hashed variables passed through URL.
 		* Not really doing much at this point, but might be in the future.
 		*
@@ -103,20 +112,39 @@
 		}
 
 
-	 /**		 
+	 /**
 		* Wrapper for typo3 pi_getLL function. Returns value from local_lang file corresponding to $key.
 		*
 		* @param string $key:  the key in the locallang file to look up.
 		* @return string the text from the local_lang file.
 		*/
 		function lang($key) {
-			if (!$this->LOCAL_LANG_charset) $this->LOCAL_LANG_charset = $this->cObj->ux_llcharset;
-			if (!$this->LOCAL_LANG) $this->LOCAL_LANG = $this->cObj->ux_language;
-			$this->LLkey = $this->cObj->ux_llkey;			
+
+
+
+			if (!$this->LOCAL_LANG_charset) {
+				$this->LOCAL_LANG_charset = $this->cObj->ux_llcharset;
+				#debug("LOCAL_LANG_charset",$this->LOCAL_LANG_charset);
+			}
+			if (!$this->LOCAL_LANG) {
+				$this->LOCAL_LANG = $this->cObj->ux_language;
+				#debug("LOCAL_LANG",$this->LOCAL_LANG);
+			}
+			$this->LLkey = $this->cObj->ux_llkey;
+
+
+			// todo: bei einigen Abfragen wird der Sprachkey nicht initialisiert
+			if (!$this->LLkey) {
+				$this->LLkey = 'de';
+			}
+			// lvogel
+
+			// todo: LOCAL_LANG müssen für einige Abfragen auskommeniert werden, warum?
 			// slows things down:
-			// if ($this->LOCAL_LANG_loaded == false) $this->pi_loadLL();
+			if ($this->LOCAL_LANG_loaded == false) $this->pi_loadLL();
 			// Loading the LOCAL_LANG values
-			return $this->pi_getLL("$key");
+
+			return $this->pi_getLL($key);
 		}
 
 	 /**
@@ -128,6 +156,8 @@
 		* @return string the HTML for the link
 		*/
 		function makeLink($params = false, $title = false, $attr = false, $url_only = false) {
+
+
 			if ($this->conf) {
 				$pid = $this->cObj->data[pid];
 			} else {
@@ -141,6 +171,8 @@
     			$params = array_merge($params,tx_chcforum_shared::getAddParams($this->conf['chcAddParams']));
 			}
 
+			//var_dump($this->cObj);
+
 			$url = htmlspecialchars($this->cObj->getTypoLink_URL($pid,$params)); // run it through special chars for XHTML compliancy
 			$out = '<a href="'.$url.'" '.$attr.'>'.$title.'</a>' ;
 			if ($url_only == true) {
@@ -149,7 +181,7 @@
 				return $out;
 			}
 		}
-		 
+
 		/**
 		* Returns the HTML needed for a linked image.
 		*
@@ -163,7 +195,7 @@
 			$link = tx_chcforum_shared::makeLink($params, $img_html, $attr);
 			return $link;
 		}
-		 
+
 		/**
 		* Used to get the template path from fconf table. Should be called before accessing
 		* any template via tpower -- put it in an if statemet, so that if $this->tmpl_path is
@@ -180,11 +212,11 @@
 				$tmpl_path = t3lib_extMgm::extPath('chc_forum').'pi1/templates/';
 			}
 			return $tmpl_path;
-		}	
-			
+		}
+
 		/**
 	 	* Returns an array with additional Link parameters
-		* 
+		*
 		* @param string  $addParamsList: comma-seperated list of parameters (from TS-setup) that will be added to all forum links.
 		* @return array additional link parameters in an array
 		*/
@@ -192,38 +224,45 @@
 		 	$queryString = explode('&', t3lib_div::implodeArrayForUrl('', $this->cObj->gpvars)) ;
 			if ($queryString) {
 				while (list(, $val) = each($queryString)) {
-					$tmp = explode('=', $val); 
+					$tmp = explode('=', $val);
 					$paramArray[$tmp[0]] = $tmp[1];
-				} 
+				}
 				while (list($pk, $pv) = each($paramArray)) {
 					if (t3lib_div::inList($addParamsList, $pk)) {
 						$addParamArray[$pk]=$pv ;
-					} 
-				} 
+					}
+				}
 			}
 			return $addParamArray;
 		 }
 
 			function getCWTcommunity($view) {
+
+
+
 				// build the cwt community object.
 				$cwt_path = t3lib_extMgm::extPath('cwt_community');
 				include_once($cwt_path.'pi1/class.tx_cwtcommunity_pi1.php');
 
 				$cwt = t3lib_div::makeInstance("tx_cwtcommunity_pi1");
-				
+
 				// tell it what to do and where to look.
 				$cwt_conf = $this->conf['cwtCommunity.'];
 				$cwt_conf['tsFlex']['data']['sDEF']['lDEF']['field_code']['vDEF'] = $view;
 				$cwt->cObj->data['pages'] = $this->fconf['feusers_pid'];
+
+				#debug($view, "view");
+				// todo: Profil-Aufruf (5) cwt->main Fehler ab hier
 				$content = $cwt->main($content,$cwt_conf);
+
 				return $content;
-				
+
 			}
 
 	}
-	
+
 	if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/chc_forum/pi1/class.tx_chcforum_shared.php']) {
 		include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/chc_forum/pi1/class.tx_chcforum_shared.php']);
 	}
-	 
+
 ?>

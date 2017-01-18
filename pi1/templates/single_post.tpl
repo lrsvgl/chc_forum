@@ -1,20 +1,30 @@
 <!-- chc_forum Template single_post.tpl -->
 {anchor}
-<div class="tx-chcforum-pi1-singlePost">
+<div class="tx-chcforum-pi1-singlePost clearfix">
 	{message}
 	<div class="author">
-		{img_tag}
-		<strong>{author_lbl} </strong>{author_name}<br />
-		<strong>{date_lbl} </strong>{date} - {time}<br />
-		<strong>{subject_lbl} </strong> {subject}<br />
-		<div class="im">{aim_link} {yahoo_link} {msn_link} {customim_link} {cwt_buddylist_link} {cwt_user_pm_message_new}</div>
+		<div class="col-xs-12 col-sm-6">
+			<strong>{author_lbl} </strong>{author_name}<br />
+			<strong>{date_lbl} </strong>{date} - {time}<br />
+			<strong>{subject_lbl} </strong> {subject}<br />
+		</div>
+		<div class="col-xs-12 col-sm-6 text-right">
+            {img_tag}
+		</div>
+			<div class="col-xs-12">
+				<!--{aim_link} {yahoo_link} {msn_link}-->{customim_link} {cwt_buddylist_link} {cwt_user_pm_message_new}
+				<hr>
+		</div>
 	</div>
-	<div class="text"><div class="scroller">{parsed_post_body}</div></div>
+
+	<div class="text col-xs-12"><div class="scroller">{parsed_post_body}</div></div>
+
+
 	<!-- START BLOCK : attachment -->
-	<div class="attachment">{attachment}</div>
+	<div class="attachment col-xs-12">{attachment}</div>
 	<!-- END BLOCK : attachment -->
 	<!-- START BLOCK : rate -->
-	<div class="rate">		
+	<div class="rate col-xs-12">
 		<div class="rateStars">
 				{stars} {score}
 		</div>
@@ -27,5 +37,9 @@
 		</div>
 	</div>
 	<!-- END BLOCK : rate -->
-	<div class="edit">{reply_link} {quote_link} {admin_ip} {admin_edit_link} {admin_delete_link} {admin_unhide_link}</div>
+
+	<div class="edit col-xs-12">
+		<hr>
+			{reply_link} {quote_link} {admin_ip} {admin_edit_link} {admin_delete_link} {admin_unhide_link}
+	</div>
 </div>

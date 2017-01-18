@@ -1,12 +1,12 @@
 <!-- chc_forum Template tool_bar.tpl -->
 
-<div class="tx_chcforum-pi1-toolBar">
+<div class="tx_chcforum-pi1-toolBar clearfix">
 
 <!--
 	<div>
 -->
 <!-- START BLOCK : is_user -->
-<div class="tx-chcforum-pi1-noWrap"><img alt="{mark_read_alt}" src="{mark_read_img}" /> {mark_read}</div>
+	<span class="btn glyphicon glyphicon-ok">{mark_read}</span>
 <!--
 		<div class="tx-chcforum-pi1-noWrap"><img alt="{mark_read_alt}" src="{mark_read_img}" /> {mark_read}</div>
 		<div class="tx-chcforum-pi1-noWrap"><img alt="{new_alt}" src="{new_img}" /> {new_posts}</div>
@@ -28,7 +28,8 @@
 		<!-- END BLOCK : user_pm -->
 <!-- END BLOCK : is_user -->
 
-		<div class="tx-chcforum-pi1-noWrap"><img alt="{search_alt}" src="{search_img}" /> {search_link}</div>
+
+	<span class="btn glyphicon glyphicon-search">{search_link}</span>
 
 <!-- START BLOCK : ulist -->
 <!--

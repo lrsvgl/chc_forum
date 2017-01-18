@@ -113,18 +113,29 @@ class tx_chcforum_author extends tx_chcforum_user {
 			return $out;
 		}
 
+		// todo: Profil-Aufruf (7) cwt-Integration abgestellt bei (4) wird ein ein Fehler erzeugt, bei der Integration von cwt, evtl Object falsch übergeben?
+
+		$this->conf['cwtCommunityIntegrated'] = false;
+
 		if ($this->conf['cwtCommunityIntegrated'] == true) {
+
 			$message = t3lib_div::makeInstance("tx_chcforum_message",$this->cObj, tx_chcforum_shared::lang('profile_contact_hdr'), 'profile_hdr_big');
 			$out.= $message->display();
 
 			$out.= '<div class="tx-chcforum-pi1-profileBorder">';
+
+			#debug(tx_chcforum_shared::getCWTcommunity('PROFILE'),"etCWTcommunity");
+
+			//todo: Profil-Aufruf (4) Aufruf von getCWTcommunity erzeugt fehler
+
 			$out.= tx_chcforum_shared::getCWTcommunity('PROFILE');
+
 			$out.= '</div>';
 			$out.= '<br />';
 
 			$links_text .= $this->returnCwtBuddyLink().'<br />';
 			$links_text .= $this->returnCwtPMLink().'<br />';
-			$links_pm_buddyadd = new $tx_chcforum_message($this->cObj, $links_text, 'profile_hdr');
+			$links_pm_buddyadd = new tx_chcforum_message($this->cObj, $links_text, 'profile_hdr');
 			$links_pm_buddyadd = $links_pm_buddyadd->display();
 
 			$out = str_replace('<{pm_buddy_links}>',$links_pm_buddyadd,$out);
@@ -149,18 +160,18 @@ class tx_chcforum_author extends tx_chcforum_user {
 				$hdr = tx_chcforum_shared::lang('profile_hdr').': '.$this->name.' ['.$this->username.']';
 			}
 			$img = $this->return_img_tag();
-			#$message = t3lib_div::makeInstance("tx_chcforum_message",$this->cObj, $hdr);
-			#$out .= $message->display();
-			#$out .= '<br />';
-			#$message = t3lib_div::makeInstance("tx_chcforum_message",$this->cObj, tx_chcforum_shared::lang('profile_contact_hdr'), 'profile_hdr_big');
-			#$out .= $message->display();
+			$message = t3lib_div::makeInstance("tx_chcforum_message",$this->cObj, $hdr);
+			$out .= $message->display();
+			$out .= '<br />';
+			$message = t3lib_div::makeInstance("tx_chcforum_message",$this->cObj, tx_chcforum_shared::lang('profile_contact_hdr'), 'profile_hdr_big');
+			$out .= $message->display();
 			$out .= '<div class="tx-chcforum-pi1-profileBorder">';
 			$out .= '<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td valign="top" align="left">';
 			if ($this->www && $this->fconf['disable_website'] == false) $out .= tx_chcforum_shared::lang('profile_website_lbl').' <a href="'.$this->www.'" target="_blank">'.$this->www.'</a><br />';
 			if ($this->email && $this->fconf['disable_email'] == false) $out .= tx_chcforum_shared::lang('profile_emailaddr').' '.$this->cObj->getTypoLink($this->email, $this->email).'<br />';
-			if ($this->tx_chcforum_yahoo && $this->fconf['disable_yahoo'] == false) $out .= 'Yahoo '.tx_chcforum_shared::lang('profile_form_screen_name').' '.$this->tx_chcforum_yahoo.'<br />';
-			if ($this->tx_chcforum_aim && $this->fconf['disable_aim'] == false) $out .= 'AIM '.tx_chcforum_shared::lang('profile_form_screen_name').' '.$this->tx_chcforum_aim.'<br />';
-			if ($this->tx_chcforum_msn && $this->fconf['disable_msn'] == false) $out .= 'MSN '.tx_chcforum_shared::lang('profile_form_screen_name').' '.$this->tx_chcforum_msn.'<br />';
+			#if ($this->tx_chcforum_yahoo && $this->fconf['disable_yahoo'] == false) $out .= 'Yahoo '.tx_chcforum_shared::lang('profile_form_screen_name').' '.$this->tx_chcforum_yahoo.'<br />';
+			#if ($this->tx_chcforum_aim && $this->fconf['disable_aim'] == false) $out .= 'AIM '.tx_chcforum_shared::lang('profile_form_screen_name').' '.$this->tx_chcforum_aim.'<br />';
+			#if ($this->tx_chcforum_msn && $this->fconf['disable_msn'] == false) $out .= 'MSN '.tx_chcforum_shared::lang('profile_form_screen_name').' '.$this->tx_chcforum_msn.'<br />';
 			if ($this->tx_chcforum_customim && $this->fconf['custom_im']) $out .= $this->fconf['custom_im'].' '.tx_chcforum_shared::lang('profile_form_screen_name').' '.$this->tx_chcforum_customim.'<br />';
 			$out .= '</td><td align="right">';
 			if ($img && $this->fconf['disable_img'] == false) $out .= $img;

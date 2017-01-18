@@ -39,6 +39,8 @@
 		*/ 
 		function tx_chcforum_fconf ($cObj) {
 
+			//debug($cObj);
+
 			#t3lib_utility_Debug::debug(debug_backtrace());
 			// unset this object -- we want it lean and mean.
 			foreach ($this as $k => $v) {
@@ -52,7 +54,7 @@
 
 			// Converting flexform data into array:
 			$this->cObj->data['pi_flexform'] = t3lib_div::xml2array($this->cObj->data['pi_flexform']);
-			
+
 			// transfer XML data to attributes
 			if (is_array($this->cObj->data['pi_flexform']['data'])) {
 				foreach ($this->cObj->data['pi_flexform']['data'] as $sheet) {
